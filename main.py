@@ -121,17 +121,14 @@ async def predict_voice(data: VoiceRequest):
 # HONEYPOT ENDPOINT (Security testing endpoint)
 # ============================================================================
 
-@app.get("/honeypot")
+@app.post("/honeypot")
 async def honeypot_endpoint(x_api_key: Optional[str] = Header(None)):
-    """
-    Honeypot endpoint for detecting unauthorized access attempts.
-    This endpoint logs all access attempts for security monitoring.
-    """
     return {
         "status": "active",
         "message": "Honeypot endpoint reached",
         "threat_detected": False
     }
+
 
 
 # ============================================================================
