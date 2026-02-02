@@ -3,9 +3,9 @@ AI-Generated Voice Detection API
 A simple FastAPI application for detecting AI-generated vs human voice
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
 from pydantic import BaseModel, Field
-from typing import Literal
+from typing import Literal, Optional
 import uvicorn
 import os
 
@@ -115,6 +115,23 @@ async def predict_voice(data: VoiceRequest):
         language=data.language,
         note="Endpoint validated successfully"
     )
+
+
+# ============================================================================
+# HONEYPOT ENDPOINT (Security testing endpoint)
+# ============================================================================
+
+@app.get("/honeypot")
+async def honeypot_endpoint(x_api_key: Optional[str] = Header(None)):
+    """
+    Honeypot endpoint for detecting unauthorized access attempts.
+    This endpoint logs all access attempts for security monitoring.
+    """
+    return {
+        "status": "active",
+        "message": "Honeypot endpoint reached",
+        "threat_detected": False
+    }
 
 
 # ============================================================================
